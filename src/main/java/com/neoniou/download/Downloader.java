@@ -39,7 +39,7 @@ public class Downloader {
             System.out.println("获取文件信息：");
             //获取下载文件大小和名称
             fileSize = connection.getContentLength();
-            printFileSize();
+            System.out.println("文件大小：" + changeUnit(fileSize));
             String fileName = getFileName(connection);
 
             //创建本地文件
@@ -124,11 +124,11 @@ public class Downloader {
         int time = 0;
         DecimalFormat format = new DecimalFormat("0.00");
         while (threadNum != endThread) {
-            int speed = (totalDownload - before) / 1024;
+            String speed = changeUnit(totalDownload - before);
             percent = (float) totalDownload / fileSize * 100;
             String rev = format.format(percent);
 
-            System.out.println("已经下载:" + rev + "%" + "--速度：" + speed + "kb/s");
+            System.out.println("已经下载:" + rev + "%" + "--速度：" + speed + "/s");
             before = totalDownload;
             time++;
             Thread.sleep(1000);
@@ -140,15 +140,16 @@ public class Downloader {
     /**
      * 转换文件大小单位
      */
-    public void printFileSize() {
+    public String changeUnit(int b) {
         final String[] unit = {"B","KB","MB","GB","TB"};
-        float rev = fileSize;
+        float rev = b;
         int i = 0;
         while (rev > 1024) {
             rev /= 1024;
             i++;
         }
-        System.out.println("文件大小：" + rev + unit[i]);
+        DecimalFormat decimalFormat = new DecimalFormat(".00");
+        return decimalFormat.format(rev) + unit[i];
     }
 
     /**

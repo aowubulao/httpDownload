@@ -18,9 +18,7 @@ public class HttpDownload {
         Scanner scanner = new Scanner(System.in);
         String url = scanner.next();
 
-
-
-        Downloader downloader = new Downloader(url,desktopPath,1);
+        Downloader downloader = new Downloader(url, desktopPath, 1);
         try {
             downloader.download();
         } catch (Exception e) {
